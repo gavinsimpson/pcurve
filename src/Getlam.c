@@ -51,7 +51,7 @@ double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
     for(j=0;j<p;j++) {
       sx[i*p+j]=tempsx[j];
     }
-	
+    
     if (late==1) {
       k=(int)(lambda[i]);
       adj=lambda[i]-k;
@@ -60,15 +60,16 @@ double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
       lambda[i]=(1.0-adj)*unilam[k]+adj*unilam[k1];
     }	
   }
+
   if (late==0) {
     for(i=0;i<n;i++) {
       order[i]=i;
     }
     pcsort(lambda,order,n);
     newlam(n,p,sx,lambda,order);
-
+    
     /* add 1 to orders so it starts at 1 not 0 !! - GD */
-
+    
     for (i=0;i<n;i++) order[i]=order[i]+1;
   }
 }
