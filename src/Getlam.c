@@ -158,15 +158,20 @@ void lamix(int ns, int p, double *x, double *s, double *lambda,
   distmin[pos]=dismin;
 }
 
-void pcsort(a, p, n)
+void pcsort(double *a, int *p, int n)
+{
+  /*
      double *a;
      int *p;
      int n;
-{
+  */
+
   int i,j,v;
+
   for(i=0; i<n; i++) {
     p[i]=i;
   }
+
   for(i=1; i<n; i++) {
     v=p[i];j=i;
     while ( (j>0) &&( a[p[j-1]] > a[v])) {
