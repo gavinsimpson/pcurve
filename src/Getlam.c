@@ -74,24 +74,25 @@ double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
   }
 }
 
-void newlam(n,p,sx,lambda,tag)
-
+void newlam(int n, int p, double *sx, double *lambda, int *tag)
+{
+  /*
      int n, p, *tag;
      double *sx, *lambda;
+  */
 
-{
-  int i,j;
+  int i, j;
   double lami,tp;
   
   lambda[tag[0]]=0.0;
   
-  for(i=0;i<n-1;i++) {
+  for(i=0; i<n-1; i++) {
     lami=0.0;
-    for(j=0;j<p;j++) {
-      tp=sx[tag[i+1]*p+j]-sx[tag[i]*p+j];
+    for(j=0; j<p; j++) {
+      tp=sx[tag[i+1]*p+j] - sx[tag[i]*p+j];
       lami=lami+tp*tp;
     }
-    lambda[tag[i+1]]=lambda[tag[i]]+sqrt(lami);
+    lambda[tag[i+1]] = lambda[tag[i]]+sqrt(lami);
   }
 }
 
