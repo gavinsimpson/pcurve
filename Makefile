@@ -20,7 +20,7 @@ check-cran: build
 
 check-torture: build
 	cd ..;\
-	R CMD check --use-gt pcurve_$(PKGVERS).tar.gz
+	R CMD check --use-gct pcurve_$(PKGVERS).tar.gz
 
 install: build
 	cd ..;\
