@@ -37,7 +37,7 @@ void getlam(int *nn, int *pp, double *x, double *sx, int *latent,
       vecx[j]=x[i*p+j];
     }
     
-    lamix(ns,p,vecx,s,lambda,dist,tempsx,i);
+    lamix(ns, p, vecx, s, lambda, dist, tempsx, i);
     
     for(j=0;j<p;j++) {
       sx[i*p+j]=tempsx[j];
@@ -148,7 +148,8 @@ void pcsort(double *a, int *p, int n)
   }
   
   for(i=1; i<n; i++) {
-    v=p[i];j=i;
+    v=p[i];
+    j=i;
     while ( (j>0) &&( a[p[j-1]] > a[v])) {
       p[j] = p[j-1]; j--; 
     }
