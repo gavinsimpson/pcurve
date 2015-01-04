@@ -20,7 +20,7 @@
              nn = as.integer(n),
              pp = as.integer(p),
              x = as.double(xt),
-             s = as.double(xt),
+             sx = as.double(xt),
              latent = as.integer(latent),
              lambda = double(n),
              tag = integer(n),
