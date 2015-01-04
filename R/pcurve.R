@@ -10,7 +10,7 @@
 {
     spline.r2 <- function(x, y, df) {
         fit <- smooth.spline(x, y, control.spar = list(low = 0),
-            df = df)
+                             df = df)
         len <- length(fit$x)
         ins <- rep(1:len, fit$w)
         fit$x <- fit$x[ins]
@@ -20,6 +20,7 @@
         totss <- sum((fit$yin - mean(fit$yin))^2)
         1 - sum(res^2)/totss
     }
+
     this.call <- match.call()
     x <- as.matrix(x)
     if (!missing(subset)) {
@@ -67,7 +68,7 @@
         xcan <- data.frame(xcan)
         if (is.null(names(xcan)))
             names(xcan) <- list(1:ncan, paste("Cov", 1:pcan,
-                sep = "."))
+                                              sep = "."))
         if (length(candf == 1))
             candf <- rep(candf, pcan)
     }
@@ -78,11 +79,13 @@
     if (inherits(start, "principal.curve"))
         pcurve <- pcurve.start <- start
     else if (missing(start)) {
-        pcurve <- pcurve.start <- startPC(x, ext.dist = ext.dist,
-            dc = ext.dc, rank = rank, type = "ca", metric = metric)
+        pcurve <- pcurve.start <-
+            startPC(x, ext.dist = ext.dist, dc = ext.dc, rank = rank,
+                    type = "ca", metric = metric)
     }
-    else pcurve <- pcurve.start <- startPC(x, ext.dist = ext.dist,
-        dc = ext.dc, rank = rank, type = start, metric = metric)
+    else pcurve <- pcurve.start <-
+        startPC(x, ext.dist = ext.dist, dc = ext.dc, rank = rank,
+                type = start, metric = metric)
     if (use.loc)
         cat("\nYou have specified use.loc = TRUE:\nTo progress to next plot,\nleft-mouse-click on current plot...\n")
     if (robust)
@@ -101,17 +104,17 @@
     }
     for (i in 1:p) {
         fit <- smooth.spline(pcurve$lambda, x[, i], control.spar = list(low = 0),
-            penalty = penalty)
+                             penalty = penalty)
         if (plot.init) {
             plot(pcurve$lambda, x[, i], pch = pch, xlab = "Locations",
-                ylab = dimnames(x)[[2]][i])
+                 ylab = dimnames(x)[[2]][i])
             lines(fit$x, fit$y, col = 2, lwd = 1.5)
             if (floor(i/6) == (i - 1)/6) {
                 if ((is.numeric(start)) | (inherits(start, "principal.curve")))
-                  mtext("Response plots and spline fits : Init config : User supplied",
-                    line = 1, cex = 1, outer = TRUE)
+                    mtext("Response plots and spline fits : Init config : User supplied",
+                          line = 1, cex = 1, outer = TRUE)
                 else mtext(paste("Response plots and spline fits : Init config : ",
-                  start), line = 1, cex = 1, outer = TRUE)
+                                 start), line = 1, cex = 1, outer = TRUE)
             }
             if ((floor(i/6) == i/6) & use.loc)
                 locator(1)
@@ -136,7 +139,7 @@
         if (vary.adj)
             cat("\nPC B-spline fit DF : ", round(df, 2), "\n")
         else cat("\nPC B-spline fit DF = ", round(mean(df), 2),
-            "\n")
+                 "\n")
     }
     if (plot.true) {
         par(oma = c(0, 0, 0, 0), mar = c(4, 5, 2, 2))
@@ -150,12 +153,12 @@
             ss <- pcurve$s
         }
         eqscplot(xx[, 1:2], tol = 0.2, pch = pch, axes = FALSE,
-            xlab = "Dim 1", ylab = "Dim 2")
+                 xlab = "Dim 1", ylab = "Dim 2")
         if ((is.numeric(start)) | (inherits(start, "principal.curve")))
             mtext("PCA plot : Init config : User supplied", line = 0,
-                cex = 1)
+                  cex = 1)
         else mtext(paste("PCA plot : Init config : ", start),
-            line = 0, cex = 1)
+                   line = 0, cex = 1)
         if (plot.segs)
             segments(xx[, 1], xx[, 2], ss[, 1], ss[, 2], col = 3)
         lines(ss[pcurve$tag, 1:2], lty = 2, col = 2)
@@ -175,17 +178,17 @@
             assign("candf", candf)
             if (canfit == "gam") {
                 for (i in 1:pcan) if (!candf[i])
-                  pname[i] <- paste("s(", names(xcan)[i], ")",
-                    sep = "")
+                    pname[i] <- paste("s(", names(xcan)[i], ")",
+                                      sep = "")
                 else pname[i] <- paste("s(", names(xcan)[i],
-                  ", fx = TRUE, k = ", candf[i] + 1, ")", sep = "")
+                                       ", fx = TRUE, k = ", candf[i] + 1, ")", sep = "")
                 for (i in 1:(pcan - 1)) xs[i] <- paste(pname[i],
-                  "+", sep = "")
+                                                       "+", sep = "")
                 xs[pcan] <- pname[pcan]
             }
             else {
                 for (i in 1:(pcan - 1)) xs[i] <- paste(names(xcan)[i],
-                  "+", sep = "")
+                                                       "+", sep = "")
                 xs[pcan] <- names(xcan)[pcan]
             }
             xss <- paste(xs, collapse = "", sep = "")
@@ -197,55 +200,57 @@
             }
             else {
                 pcurve$lambda <- check.lambda <- fitted(zfit <- lm(formu,
-                  data = data))
+                                                                   data = data))
                 partres <- (predict.lm(zfit, type = "terms") +
-                  zfit$residuals)
+                            zfit$residuals)
             }
             zfit$data <- data
             if (trace) {
                 cat("Fitting covariates: %var explained >  ",
-                  round(cor(pcurve$lambda, locs)^2 * 100, 2),
-                  "\n")
+                    round(cor(pcurve$lambda, locs)^2 * 100, 2),
+                    "\n")
             }
         }
         for (j in 1:p) {
             if (loopon) {
                 if (!robust) {
-                  if (fit.meth == "spline") {
-                    if (!cv.all)
-                      spline.fit <- smooth.spline(pcurve$lambda,
-                        x[, j], control.spar = list(low = 0),
-                        penalty = penalty, df = df[j]) # cv = FALSE
-                    else {
-                      spline.fit <- smooth.spline(pcurve$lambda,
-                        x[, j], control.spar = list(low = 0),
-                        penalty = penalty)
-                      df[j] <- spline.fit$df
+                    if (fit.meth == "spline") {
+                        if (!cv.all)
+                            spline.fit <-
+                                smooth.spline(pcurve$lambda,
+                                              x[, j], control.spar = list(low = 0),
+                                              penalty = penalty, df = df[j]) # cv = FALSE
+                        else {
+                            spline.fit <-
+                                smooth.spline(pcurve$lambda,
+                                              x[, j], control.spar = list(low = 0),
+                                              penalty = penalty)
+                            df[j] <- spline.fit$df
+                        }
+                        sj <- spline.fit$y
                     }
-                    sj <- spline.fit$y
-                  }
-                  else if (fit.meth == "poisson") {
-                    dfj <- round(df[j])
-                    sj <- fitted(gam(x[, j] ~ s(pcurve$lambda,
-                      m = dfj), family = poisson()))[order(pcurve$lambda)]
-                  }
-                  else if (fit.meth == "binomial") {
-                    dfj <- round(df[j])
-                    sj <- fitted(gam(x[, j] ~ s(pcurve$lambda,
-                      m = dfj), family = binomial()))[order(pcurve$lambda)]
-                  }
-                  else if (fit.meth == "lowess")
-                    sj <- lowess(pcurve$lambda, x[, j], f = lowf)$y
+                    else if (fit.meth == "poisson") {
+                        dfj <- round(df[j])
+                        sj <- fitted(gam(x[, j] ~ s(pcurve$lambda,
+                                                    m = dfj), family = poisson()))[order(pcurve$lambda)]
+                    }
+                    else if (fit.meth == "binomial") {
+                        dfj <- round(df[j])
+                        sj <- fitted(gam(x[, j] ~ s(pcurve$lambda,
+                                                    m = dfj), family = binomial()))[order(pcurve$lambda)]
+                    }
+                    else if (fit.meth == "lowess")
+                        sj <- lowess(pcurve$lambda, x[, j], f = lowf)$y
                 }
                 else sj <- lowess(pcurve$lambda, x[, j], f = lowf)$y
-              }
+            }
             else {
                 fit <- smooth.spline(pcurve$lambda, x[, j], control.spar = list(low = 0),
-                  penalty = penalty)
+                                     penalty = penalty)
                 if (fit$df > max.df.cv.fit)
-                  fit <- smooth.spline(pcurve$lambda, x[, j],
-                    control.spar = list(low = 0), df = max.df.cv.fit,
-                    penalty = penalty)
+                    fit <- smooth.spline(pcurve$lambda, x[, j],
+                                         control.spar = list(low = 0), df = max.df.cv.fit,
+                                         penalty = penalty)
                 sj <- fit$y
                 df[j] <- fit$df
                 cv.fit <- FALSE
@@ -256,20 +261,20 @@
         dist.old <- pcurve$dist
         if (fit.meth == "spline" & !robust)
             pcurve <- pcget.lam(x, s, latent = latent, stretch = stretch,
-                uni.lam = spline.fit$x)
+                                uni.lam = spline.fit$x)
         else pcurve <- pcget.lam(x, s, latent = latent, stretch = stretch,
-            uni.lam = sort(unique(pcurve$lambda)))
+                                 uni.lam = sort(unique(pcurve$lambda)))
         if (trace.all)
             print(pcurve)
         perc <- round(100 * (1 - pcurve$dist/dist.raw), 2)
         if (trace)
             if (!used.cv)
                 cat("Iter ", it, " --- % dist^2 expl : ", perc,
-                  "  Length : ", round(max(pcurve$lambda), 2),
-                  "\n")
+                    "  Length : ", round(max(pcurve$lambda), 2),
+                    "\n")
             else cat("CV Fit", it, " --- % dist^2 expl : ", perc,
-                "  Length : ", round(max(pcurve$lambda), 2),
-                "\n")
+                     "  Length : ", round(max(pcurve$lambda), 2),
+                     "\n")
         if (plot.true) {
             if (plot.pca) {
                 ss <- sweep(pcurve$s, 2, swx) %*% rota
@@ -279,36 +284,36 @@
                 ss <- pcurve$s
             }
             eqscplot(xx[, 1:2], tol = 0.2, pch = pch, axes = FALSE,
-                xlab = "Dim 1", ylab = "Dim 2")
+                     xlab = "Dim 1", ylab = "Dim 2")
             mtext(paste("Iter # ", it, "  % d^2 explained = ",
-                perc), line = 0, cex = 1)
+                        perc), line = 0, cex = 1)
             if (plot.segs)
                 segments(xx[, 1], xx[, 2], ss[, 1], ss[, 2],
-                  col = 3)
+                         col = 3)
             lines(ss[pcurve$tag, 1:2], col = 2, lwd = 2)
         }
         if (!used.cv)
             loopon <- ((abs(dist.old - pcurve$dist)/dist.old >
-                thresh) & (it < maxit))
+                        thresh) & (it < maxit))
     }
     if (robust)
         df <- rep(10^(-lowf) * 20, p)
     sdf <- (n * (p - 1) - sum(df))
     cat("\n% d^2 expl = ", round(100 * (1 - pcurve$dist/dist.raw),
-        2), ": s^2 = ", round(pcurve$dist/sdf, 3), ": Aprx. dfs = ",
+                                 2), ": s^2 = ", round(pcurve$dist/sdf, 3), ": Aprx. dfs = ",
         round(sdf, 1), "\n\n")
     if (fits) {
         ssfit <- ss[pcurve$tag, ]
         pcfits <- (ssfit[2:n, ] - ssfit[1:(n - 1), ])^2
         minnp <- min(c(p, n))
         for (i in minnp:2) pcfits[, i] <- apply(pcfits[, 1:i],
-            1, sum)
+                                                1, sum)
         pcfits <- sqrt(pcfits)
         pcfits <- apply(pcfits, 2, sum)
         pcafits <- diag(pcax$d^2)/sum(diag(pcax$d^2))
         fits.df <- data.frame(round(100 * pcafits, 2), round(100 *
-            cumsum(pcafits), 2), round((100 * pcfits)/pcfits[minnp],
-            2))
+                                                             cumsum(pcafits), 2), round((100 * pcfits)/pcfits[minnp],
+                                                                                        2))
         names(fits.df) <- c("PCA % var", "Cum PCA %var", "Cum PC Lengths")
         if (prnt.fits)
             print(fits.df[1:min(c(6, p, n)), ])
@@ -317,7 +322,7 @@
         for (i in 1:p) {
             r2[i] <- spline.r2(pcurve$lambda, x[, i], df[i])
             pfr[i] <- 1 - pf(r2[i]/(1 - r2[i]), df[i], n - df[i] -
-                1)
+                             1)
         }
         cat("\n % R2 for smooths : \n")
         if (prnt.fits)
@@ -340,17 +345,17 @@
         par(mfrow = resp.n, cex = 1.25)
         for (i in 1:p) {
             plot(pcurve$lambda, x[, i], pch = pch, xlab = "Locations",
-                ylab = dimnames(x)[[2]][i])
+                 ylab = dimnames(x)[[2]][i])
             lines(pcurve$lambda[pcurve$tag], pcurve$s[pcurve$tag,
-                i], col = 2, lwd = 1.5)
+                                                      i], col = 2, lwd = 1.5)
             if (floor(i/6) == (i - 1)/6)
                 mtext("Response plots and fitted curves", line = 1,
-                  cex = 1, outer = TRUE)
+                      cex = 1, outer = TRUE)
             if ((floor(i/6) == i/6) & use.loc)
                 locator(1)
         }
         mtext("Response plots and fitted curves", line = 1, cex = 1,
-            outer = TRUE)
+              outer = TRUE)
         par(oma = c(0, 0, 0, 0), mfrow = c(1, 1), cex = 1)
     }
     if (!is.null(xcan) & plot.cov) {
@@ -362,11 +367,11 @@
         if (canfit == "gam")
             plot.gam(zfit, se = TRUE, rug = TRUE)
         mtext("Covariate partial effects plots", line = 1, cex = 1,
-            outer = TRUE)
+              outer = TRUE)
         if (canfit == "lm")
             for (i in 1:pcan) {
                 plot(xcan[, i], partres[, i], pch = pch, xlab = dimnames(xcan)[[2]][i],
-                  ylab = "Partial residual")
+                     ylab = "Partial residual")
                 abline(coef(lm(partres[, i] ~ xcan[, i])))
             }
     }
@@ -375,14 +380,14 @@
     if (fits) {
         if (!is.null(xcan))
             fit.lst <- list(fits.df = fits.df, zfit = zfit, r2 = r2,
-                pfr = pfr)
+                            pfr = pfr)
         else fit.lst <- list(fits.df = fits.df, r2 = r2, pfr = pfr)
         structure(list(s = pcurve$s, x = x, tag = pcurve$tag,
-            lambda = pcurve$lambda, df = df, dist = pcurve$dist,
-            fit.lst = fit.lst, call = this.call), class = "principal.curve")
+                       lambda = pcurve$lambda, df = df, dist = pcurve$dist,
+                       fit.lst = fit.lst, call = this.call), class = "principal.curve")
     }
     else structure(list(s = pcurve$s, x = x, tag = pcurve$tag,
-        lambda = pcurve$lambda, df = df, dist = pcurve$dist,
-        call = this.call), class = "principal.curve")
+                        lambda = pcurve$lambda, df = df, dist = pcurve$dist,
+                        call = this.call), class = "principal.curve")
 }
 
