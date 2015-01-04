@@ -1,10 +1,6 @@
 #include <Rmath.h>
 #include "R.h"
 
-void lamix();
-void newlam();
-void pcsort();
-
 void getlam(int *nn, int *pp, double *x, double *sx, int *latent,
 	    double *lambda, int *order, double *dist, int *nns,
 	    double *s, double *strech, double *unilam, double *vecx,
