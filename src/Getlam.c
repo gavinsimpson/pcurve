@@ -7,34 +7,29 @@ void getlam(int *nn, int *pp, double *x, double *sx, int *latent,
 	    double *tempsx)
 {
 
-/*
-int *nn, *pp, *nns, *latent, *order;
-double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
-/*
-
-/*
-#this subroutine assumes on input a set of p co-ordinate functions s
-#defined on the integers 1 ... ns; ie a parametrized  curve.
-#It produces a vector of lambda and fitted values sx for each value of x
-# stretch left and right end boundries by factor 1+strech
-*/
+  /*
+    this subroutine assumes on input a set of p co-ordinate functions s
+    defined on the integers 1 ... ns; ie a parametrized  curve.
+    It produces a vector of lambda and fitted values sx for each value of x
+    stretch left and right end boundries by factor 1+strech
+  */
 
   int i, j, k, k1, n = *nn, ns = *nns, p=*pp, late=*latent;
   double stretch=*strech, adj;
-
+  
   if(stretch < 0.0) stretch=0.0;
   if(stretch > 2.0) stretch=2.0;
-
+  
   for(j=0;j<p;j++) {
     s[j] += stretch * (s[j] - s[p+j]);
     s[(ns-1) * p+j] += stretch * (s[(ns-1) * p+j] - s[(ns-2) * p+j]);
   }
-
-  /* 
-     # if (late==1) {
-     # unilam[0]+=stretch*(unilam[0]-unilam[1]);
-     # unilam[ns-1]+=stretch*(unilam[ns-1]-unilam[ns-2]);
-     # }
+  
+  /* GLS - no idea why this was/is commented; came that way
+     if (late==1) {
+       unilam[0]+=stretch*(unilam[0]-unilam[1]);
+       unilam[ns-1]+=stretch*(unilam[ns-1]-unilam[ns-2]);
+     }
   */
 
   for(i=0;i<n;i++) {
@@ -56,7 +51,7 @@ double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
       lambda[i]=(1.0-adj)*unilam[k]+adj*unilam[k1];
     }	
   }
-
+  
   if (late==0) {
     for(i=0;i<n;i++) {
       order[i]=i;
@@ -72,11 +67,6 @@ double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
 
 void newlam(int n, int p, double *sx, double *lambda, int *tag)
 {
-  /*
-     int n, p, *tag;
-     double *sx, *lambda;
-  */
-
   int i, j;
   double lami,tp;
   
@@ -95,15 +85,10 @@ void newlam(int n, int p, double *sx, double *lambda, int *tag)
 void lamix(int ns, int p, double *x, double *s, double *lambda,
 	   double *distmin, double *temps, int pos)
 {
-  /*
-     int ns, p, pos;
-     double *lambda, *x, *s, *distmin, *temps;
-  */
-
   int i, j, ik, left, right;
   double d1sqr, d2sqr, dismin, d12, dsqr, d1, w;
   double lam, lammin, tp;
-
+  
   dismin=1000000.0;
   lammin=1.0;
   
@@ -156,18 +141,12 @@ void lamix(int ns, int p, double *x, double *s, double *lambda,
 
 void pcsort(double *a, int *p, int n)
 {
-  /*
-     double *a;
-     int *p;
-     int n;
-  */
-
   int i,j,v;
-
+  
   for(i=0; i<n; i++) {
     p[i]=i;
   }
-
+  
   for(i=1; i<n; i++) {
     v=p[i];j=i;
     while ( (j>0) &&( a[p[j-1]] > a[v])) {
