@@ -96,15 +96,17 @@ void newlam(int n, int p, double *sx, double *lambda, int *tag)
   }
 }
 
-void lamix(ns,p,x,s,lambda,distmin,temps,pos)
-     
+void lamix(int ns, int p, double *x, double *s, double *lambda,
+	   double *distmin, double *temps, int pos)
+{
+  /*
      int ns, p, pos;
      double *lambda, *x, *s, *distmin, *temps;
+  */
 
-{
-  int i,j,ik,left,right;
-  double d1sqr,d2sqr,dismin,d12,dsqr,d1,w;
-  double lam,lammin,tp;
+  int i, j, ik, left, right;
+  double d1sqr, d2sqr, dismin, d12, dsqr, d1, w;
+  double lam, lammin, tp;
 
   dismin=1000000.0;
   lammin=1.0;
