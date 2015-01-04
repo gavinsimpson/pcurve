@@ -227,7 +227,8 @@
                                               penalty = penalty)
                             df[j] <- spline.fit$df
                         }
-                        sj <- spline.fit$y
+                        ## sj <- spline.fit$y
+                        sj <- predict(spline.fit, x = pcurve$lambda)
                     }
                     else if (fit.meth == "poisson") {
                         dfj <- round(df[j])
