@@ -5,10 +5,16 @@ void lamix();
 void newlam();
 void pcsort();
 
-void getlam(nn,pp,x,sx,latent,lambda,order,dist,nns,s,strech,unilam,vecx,tempsx)
+void getlam(int *nn, int *pp, double *x, double *sx, int *latent,
+	    double *lambda, int *order, double *dist, int *nns,
+	    double *s, double *strech, double *unilam, double *vecx,
+	    double *tempsx)
+{
 
+/*
 int *nn, *pp, *nns, *latent, *order;
 double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
+/*
 
 /*
 #this subroutine assumes on input a set of p co-ordinate functions s
@@ -16,8 +22,6 @@ double *x, *sx, *s, *lambda, *dist, *tempsx, *vecx, *strech, *unilam;
 #It produces a vector of lambda and fitted values sx for each value of x
 # stretch left and right end boundries by factor 1+strech
 */
-
-{
 
   int i, j, k, k1, n = *nn, ns = *nns, p=*pp, late=*latent;
   double stretch=*strech, adj;
