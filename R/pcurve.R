@@ -215,7 +215,7 @@
                     if (!cv.all)
                       spline.fit <- smooth.spline(pcurve$lambda,
                         x[, j], control.spar = list(low = 0),
-                        cv = FALSE, penalty = penalty, df = df[j])
+                        penalty = penalty, df = df[j]) # cv = FALSE
                     else {
                       spline.fit <- smooth.spline(pcurve$lambda,
                         x[, j], control.spar = list(low = 0),
