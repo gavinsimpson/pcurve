@@ -63,8 +63,12 @@ void lamix(int ns, int p, double *x, double *s, double *lambda,
     }
   }
   left=(int)lammin;
-  if(lammin>=ns) {
-    left=ns-1;
+  /* Fix supplied by Joshua Ulrich (@joshuaulrich):
+   * https://github.com/gavinsimpson/pcurve/issues/2 */
+  if(lammin >= (ns-1)) {
+     /* if left is >= the last value (in 0-based index), set it to the
+      * second-to-last value, so right will be the last value */
+    left = ns-2;
   }
   right = left + 1;
   w = lammin - left;
