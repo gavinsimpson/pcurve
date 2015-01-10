@@ -1,0 +1,192 @@
+
+R version 3.1.2 Patched (2014-12-02 r67096) -- "Pumpkin Helmet"
+Copyright (C) 2014 The R Foundation for Statistical Computing
+Platform: x86_64-unknown-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> pkgname <- "pcurve"
+> source(file.path(R.home("share"), "R", "examples-header.R"))
+> options(warn = 1)
+> library('pcurve')
+Loading required package: mgcv
+Loading required package: nlme
+This is mgcv 1.8-4. For overview type 'help("mgcv-package")'.
+Loading required package: vegan
+Loading required package: permute
+Loading required package: lattice
+This is vegan 2.2-1
+Loading required package: MASS
+> 
+> base::assign(".oldSearch", base::search(), pos = 'CheckExEnv')
+> cleanEx()
+> nameEx("pca")
+> ### * pca
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pca
+> ### Title: Principal Component Analysis
+> ### Aliases: pca
+> ### Keywords: multivariate
+> 
+> ### ** Examples
+> 
+>          data(soilspec)
+>          species <- sqrt(soilspec[,2:9])
+>          specpca <- pca(species)
+>          eqscplot(specpca$pcs[,1], specpca$pcs[,2], type = "n",
++               xlab = "Principal component 1",
++               ylab = "Principal component 2") 
+>          text(specpca$pcs[,1], specpca$pcs[,2], 
++               soilspec$site) 
+>          mtext(paste("Grassland communities in 45 sites"))
+> 
+> 
+> 
+> cleanEx()
+> nameEx("pcurve")
+> ### * pcurve
+> 
+> flush(stderr()); flush(stdout())
+> 
+> ### Name: pcurve
+> ### Title: Principal Curve Analysis
+> ### Aliases: pcurve
+> ### Keywords: multivariate smooth loess hplot
+> 
+> ### ** Examples
+> 
+> #a simulated dataset with 4 response variables (taxa 1-4),
+> #n=100.  The response curve is Gaussian and noise is Poisson.
+>     data(sim4var)
+>     sim4fit <-  pcurve(sim4var, plot.init = FALSE, use.loc = TRUE)
+
+Estimating starting configuration using : CA
+
+You have specified use.loc = TRUE:
+To progress to next plot,
+left-mouse-click on current plot...
+GCV DFs : Penalty =  1
+PC B-spline fit DF =  6.86 
+Iter  1  --- % dist^2 expl :  90.46   Length :  385.69 
+Iter  2  --- % dist^2 expl :  92.52   Length :  433.48 
+Iter  3  --- % dist^2 expl :  93.05   Length :  449.46 
+Iter  4  --- % dist^2 expl :  93.16   Length :  450.48 
+Iter  5  --- % dist^2 expl :  93.22   Length :  450.93 
+Iter  6  --- % dist^2 expl :  93.25   Length :  451.17 
+Iter  7  --- % dist^2 expl :  93.27   Length :  451.31 
+Iter  8  --- % dist^2 expl :  93.29   Length :  451.32 
+Iter  9  --- % dist^2 expl :  93.29   Length :  451.2 
+
+% d^2 expl =  93.29 : s^2 =  136.73 : Aprx. dfs =  365.7 
+
+> 
+> #Limestone grassland community example worked by De'ath (1999a),
+> #from data in Gittins (1985)
+>     data(soilspec)
+>     species <- sqrt(soilspec[,2:9])
+>     envvar <- soilspec[,10:12]
+> #indirect gradient analysis
+>     spec.fit <- pcurve(species, start = "mds.bc", plot.init = FALSE,
++                        use.loc = TRUE)
+
+Estimating starting configuration using : MDS.BC
+Using extended distances 
+Too long or NA distances: 0 out of 990 (0.0%)
+Stepping across 990 dissimilarities...
+
+You have specified use.loc = TRUE:
+To progress to next plot,
+left-mouse-click on current plot...
+GCV DFs : Penalty =  1
+PC B-spline fit DF =  5.08 
+Iter  1  --- % dist^2 expl :  67.27   Length :  24.73 
+Iter  2  --- % dist^2 expl :  74.22   Length :  27.83 
+Iter  3  --- % dist^2 expl :  76.28   Length :  30.89 
+Iter  4  --- % dist^2 expl :  76.23   Length :  30.99 
+Iter  5  --- % dist^2 expl :  76.19   Length :  31.02 
+Iter  6  --- % dist^2 expl :  76.15   Length :  31.02 
+Iter  7  --- % dist^2 expl :  76.12   Length :  31.01 
+Iter  8  --- % dist^2 expl :  76.1   Length :  31 
+
+% d^2 expl =  76.1 : s^2 =  1.488 : Aprx. dfs =  274.3 
+
+> #direct gradient analysis
+>     soilspec.fit <- pcurve(species, xcan = envvar, 
++                            start = "mds.bc", plot.init = FALSE,  
++                            fits = TRUE, prnt.fits = TRUE,
++                            use.loc = TRUE)
+
+Estimating starting configuration using : MDS.BC
+Using extended distances 
+Too long or NA distances: 0 out of 990 (0.0%)
+Stepping across 990 dissimilarities...
+
+You have specified use.loc = TRUE:
+To progress to next plot,
+left-mouse-click on current plot...
+GCV DFs : Penalty =  1
+PC B-spline fit DF =  5.08 
+Fitting covariates: %var explained >   75.66 
+Iter  1  --- % dist^2 expl :  67.22   Length :  21.24 
+Fitting covariates: %var explained >   78.42 
+Iter  2  --- % dist^2 expl :  68.02   Length :  21.6 
+Fitting covariates: %var explained >   76.98 
+Iter  3  --- % dist^2 expl :  68.08   Length :  21.64 
+Fitting covariates: %var explained >   76.86 
+Iter  4  --- % dist^2 expl :  68.08   Length :  21.64 
+
+% d^2 expl =  68.08 : s^2 =  1.987 : Aprx. dfs =  274.3 
+
+  PCA % var Cum PCA %var Cum PC Lengths
+1     51.88        51.88          50.78
+2     20.52        72.40          91.44
+3     10.16        82.56          93.85
+4      8.59        91.15          97.22
+5      3.44        94.59          98.03
+6      2.60        97.19          98.91
+
+ % R2 for smooths : 
+  sp1   sp2   sp3   sp4   sp5   sp6   sp7   sp8 
+91.55 92.17 66.90 72.90 23.52 47.47 36.85 89.28 
+
+ % Prob (F) for smooths : 
+   sp1    sp2    sp3    sp4    sp5    sp6    sp7    sp8 
+0.0000 0.0000 0.0961 0.0344 0.9077 0.4898 0.7150 0.0000 
+Coefficients:
+            Estimate Std. Error t value  Pr(>|t|)
+(Intercept)  34.4281   2.2718    15.1545   0.0000
+depth        -2.0696   0.3365    -6.1498   0.0000
+p           -12.6063   1.7334    -7.2724   0.0000
+k             1.4822   1.2441     1.1914   0.2404
+Multiple R-Squared: 0.7686 
+> 
+> 
+> 
+> ### * <FOOTER>
+> ###
+> options(digits = 7L)
+> base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
+Time elapsed:  3.73 0.032 3.773 0 0 
+> grDevices::dev.off()
+null device 
+          1 
+> ###
+> ### Local variables: ***
+> ### mode: outline-minor ***
+> ### outline-regexp: "\\(> \\)?### [*]+" ***
+> ### End: ***
+> quit('no')
