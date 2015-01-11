@@ -6,8 +6,10 @@ exportPattern(".")
 
 # Import all packages listed as Imports or Depends
 import(
-  mgcv,
   vegan,
   MASS,
   stats
 )
+
+## more specific imports from mgcv
+importFrom(mgcv, gam, s, plot.gam)
