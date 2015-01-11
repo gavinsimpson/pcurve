@@ -147,24 +147,33 @@ R port by Chris Walsh \email{cwalsh@unimelb.edu.au} from S+ library by Glenn De'
 }
 \seealso{\code{\link{pcdiags.plt}}, \code{\link[vegan]{vegdist}},  \code{\link[vegan]{stepacross}}}
 \examples{
-#a simulated dataset with 4 response variables (taxa 1-4),
-#n=100.  The response curve is Gaussian and noise is Poisson.
-    data(sim4var)
-    sim4fit <-  pcurve(sim4var, plot.init = FALSE, use.loc = TRUE)
+## A simulated dataset with 4 response variables (taxa 1-4),
+## n=100. The response curve is Gaussian and noise is Poisson.
+data(sim4var)
+locs <- sim4var[, 1]
+sim4var <- sim4var[, -1]
+sim4fit <-  pcurve(sim4var, plot.init = FALSE, use.loc = FALSE)
 
-#Limestone grassland community example worked by De'ath (1999a),
-#from data in Gittins (1985)
-    data(soilspec)
-    species <- sqrt(soilspec[,2:9])
-    envvar <- soilspec[,10:12]
-#indirect gradient analysis
-    spec.fit <- pcurve(species, start = "mds.bc", plot.init = FALSE,
-                       use.loc = TRUE)
-#direct gradient analysis
-    soilspec.fit <- pcurve(species, xcan = envvar, 
-                           start = "mds.bc", plot.init = FALSE,  
-                           fits = TRUE, prnt.fits = TRUE,
-                           use.loc = TRUE)
+## Limestone grassland community example worked by De'ath (1999a),
+## from data in Gittins (1985)
+data(soilspec)
+species <- sqrt(soilspec[,2:9])
+envvar <- soilspec[,10:12]
+
+## indirect gradient analysis
+spec.fit <- pcurve(species, start = "mds.bc", plot.init = FALSE,
+                   use.loc = FALSE)
+## direct gradient analysis
+soilspec.fit <- pcurve(species, xcan = envvar, 
+                       start = "mds.bc", plot.init = FALSE,  
+                       fits = TRUE, prnt.fits = TRUE,
+                       use.loc = FALSE)
+
+## GAM-based fitting
+sim4gam <-  pcurve(sim4var, plot.init = FALSE, use.loc = FALSE,
+                   fit.meth = "poisson")
+
+
 }
 \keyword{multivariate}
 \keyword{smooth}
