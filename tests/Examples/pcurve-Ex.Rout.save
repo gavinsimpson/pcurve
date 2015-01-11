@@ -69,48 +69,40 @@ Loading required package: MASS
 > 
 > ### ** Examples
 > 
-> #a simulated dataset with 4 response variables (taxa 1-4),
-> #n=100.  The response curve is Gaussian and noise is Poisson.
->     data(sim4var)
->     sim4fit <-  pcurve(sim4var, plot.init = FALSE, use.loc = TRUE)
+> ## A simulated dataset with 4 response variables (taxa 1-4),
+> ## n=100. The response curve is Gaussian and noise is Poisson.
+> data(sim4var)
+> locs <- sim4var[, 1]
+> sim4var <- sim4var[, -1]
+> sim4fit <-  pcurve(sim4var, plot.init = FALSE, use.loc = FALSE)
 
 Estimating starting configuration using : CA
-
-You have specified use.loc = TRUE:
-To progress to next plot,
-left-mouse-click on current plot...
 GCV DFs : Penalty =  1
-PC B-spline fit DF =  6.86 
-Iter  1  --- % dist^2 expl :  90.46   Length :  385.69 
-Iter  2  --- % dist^2 expl :  92.52   Length :  433.48 
-Iter  3  --- % dist^2 expl :  93.05   Length :  449.46 
-Iter  4  --- % dist^2 expl :  93.16   Length :  450.48 
-Iter  5  --- % dist^2 expl :  93.22   Length :  450.93 
-Iter  6  --- % dist^2 expl :  93.25   Length :  451.17 
-Iter  7  --- % dist^2 expl :  93.27   Length :  451.31 
-Iter  8  --- % dist^2 expl :  93.29   Length :  451.32 
-Iter  9  --- % dist^2 expl :  93.29   Length :  451.2 
+PC B-spline fit DF =  6.55 
+Iter  1  --- % dist^2 expl :  90.58   Length :  389.6 
+Iter  2  --- % dist^2 expl :  92.16   Length :  425.31 
+Iter  3  --- % dist^2 expl :  92.41   Length :  436.57 
+Iter  4  --- % dist^2 expl :  92.44   Length :  435.99 
+Iter  5  --- % dist^2 expl :  92.45   Length :  435.17 
+Iter  6  --- % dist^2 expl :  92.46   Length :  434.53 
 
-% d^2 expl =  93.29 : s^2 =  136.73 : Aprx. dfs =  365.7 
+% d^2 expl =  92.46 : s^2 =  182.319 : Aprx. dfs =  273.8 
 
 > 
-> #Limestone grassland community example worked by De'ath (1999a),
-> #from data in Gittins (1985)
->     data(soilspec)
->     species <- sqrt(soilspec[,2:9])
->     envvar <- soilspec[,10:12]
-> #indirect gradient analysis
->     spec.fit <- pcurve(species, start = "mds.bc", plot.init = FALSE,
-+                        use.loc = TRUE)
+> ## Limestone grassland community example worked by De'ath (1999a),
+> ## from data in Gittins (1985)
+> data(soilspec)
+> species <- sqrt(soilspec[,2:9])
+> envvar <- soilspec[,10:12]
+> 
+> ## indirect gradient analysis
+> spec.fit <- pcurve(species, start = "mds.bc", plot.init = FALSE,
++                    use.loc = FALSE)
 
 Estimating starting configuration using : MDS.BC
 Using extended distances 
 Too long or NA distances: 0 out of 990 (0.0%)
 Stepping across 990 dissimilarities...
-
-You have specified use.loc = TRUE:
-To progress to next plot,
-left-mouse-click on current plot...
 GCV DFs : Penalty =  1
 PC B-spline fit DF =  5.08 
 Iter  1  --- % dist^2 expl :  67.27   Length :  24.73 
@@ -124,20 +116,16 @@ Iter  8  --- % dist^2 expl :  76.1   Length :  31
 
 % d^2 expl =  76.1 : s^2 =  1.488 : Aprx. dfs =  274.3 
 
-> #direct gradient analysis
->     soilspec.fit <- pcurve(species, xcan = envvar, 
-+                            start = "mds.bc", plot.init = FALSE,  
-+                            fits = TRUE, prnt.fits = TRUE,
-+                            use.loc = TRUE)
+> ## direct gradient analysis
+> soilspec.fit <- pcurve(species, xcan = envvar, 
++                        start = "mds.bc", plot.init = FALSE,  
++                        fits = TRUE, prnt.fits = TRUE,
++                        use.loc = FALSE)
 
 Estimating starting configuration using : MDS.BC
 Using extended distances 
 Too long or NA distances: 0 out of 990 (0.0%)
 Stepping across 990 dissimilarities...
-
-You have specified use.loc = TRUE:
-To progress to next plot,
-left-mouse-click on current plot...
 GCV DFs : Penalty =  1
 PC B-spline fit DF =  5.08 
 Fitting covariates: %var explained >   75.66 
@@ -174,13 +162,28 @@ p           -12.6063   1.7334    -7.2724   0.0000
 k             1.4822   1.2441     1.1914   0.2404
 Multiple R-Squared: 0.7686 
 > 
+> ## GAM-based fitting
+> sim4gam <-  pcurve(sim4var, plot.init = FALSE, use.loc = FALSE,
++                    fit.meth = "poisson")
+
+Estimating starting configuration using : CA
+GCV DFs : Penalty =  1
+PC B-spline fit DF =  6.55 
+Iter  1  --- % dist^2 expl :  -85.88   Length :  27.02 
+Iter  2  --- % dist^2 expl :  -85.77   Length :  9.07 
+
+% d^2 expl =  -85.77 : s^2 =  4489.624 : Aprx. dfs =  273.8 
+
+> 
+> 
+> 
 > 
 > 
 > ### * <FOOTER>
 > ###
 > options(digits = 7L)
 > base::cat("Time elapsed: ", proc.time() - base::get("ptime", pos = 'CheckExEnv'),"\n")
-Time elapsed:  3.73 0.032 3.773 0 0 
+Time elapsed:  4.703 0.052 4.766 0 0 
 > grDevices::dev.off()
 null device 
           1 
