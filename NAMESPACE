@@ -12,4 +12,4 @@ import(
 )
 
 ## more specific imports from mgcv
-importFrom(mgcv, gam, s, plot.gam)
+importFrom(mgcv, gam, s, plot.gam, predict.gam)

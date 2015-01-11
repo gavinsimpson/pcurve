@@ -211,6 +211,13 @@
                     "\n")
             }
         }
+
+        ## If GAM fitting, create a data frame containing the current lambda (dataF)
+        ## and dataP is for predicting
+        if (fit.meth %in% c("poisson","binomial")) {
+            dataF <- data.frame(lambda = pcurve$lambda)
+            dataP <- dataF[order(dataF$lambda), , drop = FALSE]
+        }
         for (j in 1:p) {
             if (loopon) {
                 if (!robust) {
@@ -232,13 +239,17 @@
                     }
                     else if (fit.meth == "poisson") {
                         dfj <- round(df[j])
-                        sj <- fitted(gam(x[, j] ~ s(pcurve$lambda,
-                                                    m = dfj), family = poisson()))[order(pcurve$lambda)]
+                        gamFit <- gam(x[, j] ~ s(lambda, m = dfj), data = dataF,
+                                      family = poisson())
+                        ## sj <- fitted(gamFit)[order(pcurve$lambda)]
+                        sj <- predict(gamFit, newdata = dataP)
                     }
                     else if (fit.meth == "binomial") {
                         dfj <- round(df[j])
-                        sj <- fitted(gam(x[, j] ~ s(pcurve$lambda,
-                                                    m = dfj), family = binomial()))[order(pcurve$lambda)]
+                        gamFit <- gam(x[, j] ~ s(lambda, m = dfj), data = dataF,
+                                      family = binomial())
+                        ## sj <- fitted(gamFit)[order(pcurve$lambda)]
+                        sj <- predict(gamFit, newdata = dataP)
                     }
                     else if (fit.meth == "lowess")
                         sj <- lowess(pcurve$lambda, x[, j], f = lowf)$y
